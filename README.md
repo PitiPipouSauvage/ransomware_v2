@@ -6,3 +6,4 @@ This ransomware will work on Linux and should work on macOS (only tested on linu
 
 It requires cryptography, os and sys to work.
 
+You can donate XMR 42XvJRALjLtU7keRk7cqgJBeQQEAy292A6Uva3dxiW6YGnqCKrJsJ4yCNNpExo5bpefQDjUCymJZQJxBYW82aR3qPWnVQwA
