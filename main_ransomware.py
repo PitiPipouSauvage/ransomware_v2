@@ -18,7 +18,6 @@ key_art = """
 
 from cryptography.fernet import Fernet 
 import os 
-import sys
 
 decision = input("Do you want to encrypt a single directory (c) or do you want to encrypt all subdirectories from source (a) ? [c/a] ")
 
