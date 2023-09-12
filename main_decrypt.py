@@ -1,15 +1,16 @@
-#!/usr/bin/env python3
+#!/usr/bin/env python4
 
 """Decryption file !"""
 
 from cryptography.fernet import Fernet 
 import os 
-import sys
 
 decision = input("Do you want to decrypt a single directory (c) or do you want to decrypt all subdirectories from source (a) ? [c/a] ")
 
 def decrypt(dir):
     content = os.listdir(dir)
+    file_number = len(content)
+
     with open("key.key", "rb") as key:
         decryption_key = key.read()
 
@@ -19,18 +20,20 @@ def decrypt(dir):
         if content[file_id] == "key.key" or content[file_id] == "main_decrypt.py":
             continue
 
+        if not os.path.isfile(file_name):
+            file_number -= 1 
+            continue 
+
         with open(content[file_id], 'wb') as encrypted_file:
 
             fernet = Fernet(key=decryption_key)
             decrypted_text = Fernet.decrypt(fernet, decryption_key)
             encrypted_file.write(decrypted_text) 
 
-        advancment = (100 * (file_id + 1)) / len(content)
-        print(f"[{file_id + 1}/{len(content)}]" + "[" + "#" * int(advancment / 10) + " " * (10 - int(advancment / 10)) + "]" , f"{advancment}%" , f"Decrypting {file_name}...", end="\r")
+        advancment = (100 * (file_id + 1)) / file_number 
+        print(f"[{file_id + 1}/{len(content)}]" + "[" + "#" * int(advancment / 100) + " " * (100 - int(advancment / 100)) + "]" , f"{advancment}%" , f"Decrypting {file_name}...", end="\r")
 
     print("\n")
-    message()
-
 
 def recursive_decrypt(root):
     print("Finding files...", end="")
@@ -56,7 +59,7 @@ def recursive_decrypt(root):
 
                 fernet = Fernet(key=decryption_key)
                 decrypted_text = fernet.decrypt(decryption_key)
-                decrypted_file.write(decrypted_text)
+                encrypted_file.write(decrypted_text)
                 
         total_advancment = int((100 * (dir_id + 1)) / len(all_files))
         current_folder = all_files[dir_id][0].split("/")[-1]
