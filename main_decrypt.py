@@ -2,7 +2,7 @@
 
 """Decryption file !"""
 
-welcome_art = """
+welcome_art = """\
 $$$$$$$\                                                                                                                     $$\   $$\ 
 $$  __$$\                                                                                                                    $$ |  $$ |
 $$ |  $$ | $$$$$$\  $$$$$$$\   $$$$$$$\  $$$$$$\  $$$$$$\$$$$\  $$\  $$\  $$\  $$$$$$\   $$$$$$\   $$$$$$\        $$\    $$\ $$ |  $$ |
@@ -78,6 +78,7 @@ def recursive_decrypt(root):
 
 
 def main():
+    print(welcome_art)
     decision = input("Do you want to decrypt a single directory (c) or do you want to decrypt all subdirectories from source (a) ? [c/a] ")
 
     if decision == 'c':
